@@ -1,0 +1,35 @@
+language: bash
+
+env:
+  global:
+  - PROJECT_NAME=muslrust-extra
+  - IMAGE_NAME=$DOCKER_USERNAME/$PROJECT_NAME
+  - DOCKERFILE_DIR=.
+  - DOCKER_BUILD_TARGET=builder
+
+matrix:
+  include:
+  - services: docker
+    env:
+    - TOOLCHAIN=stable
+
+before_script:
+- set -e
+- docker --version
+# always test login
+- docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+
+script:
+- docker build --target $DOCKER_BUILD_TARGET --build-arg TOOLCHAIN=$TOOLCHAIN
+  -t $IMAGE_NAME:$TOOLCHAIN
+  $DOCKERFILE_DIR
+
+after_success:
+- |
+  if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
+    docker push $IMAGE_NAME:$TOOLCHAIN;
+  fi
+
+branches:
+  only:
+  - master
