@@ -1,9 +1,9 @@
+FROM alpine:3.7 as provider
+
+# add in the missing symbols, which is super hackish and less flexible
+# but more convenient for linking
+RUN apk add --no-cache binutils mariadb-dev \
+    && ar -rc /root/libmysqlclient.a /usr/lib/libssl.a /usr/lib/libcrypto.a /lib/libz.a /usr/lib/libmysqlclient.a
+
 FROM clux/muslrust:stable as builder
-
-ENV MYSQL_VER=6.1.11
-
-RUN set -eux \
-    && apt-get install cmake \
-    && curl -SsL "https://cdn.mysql.com//Downloads/Connector-C/mysql-connector-c-${MYSQL_VER}-src.tar.gz" | tar xz \
-    && cd "mysql-connector-c-${MYSQL_VER}-src/"
-
+COPY --from=provider /root/libmysqlclient.a /musl/lib/
