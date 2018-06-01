@@ -20,9 +20,9 @@ before_script:
 - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
 
 script:
-- docker build --build-arg TOOLCHAIN=$TOOLCHAIN \
-    -t $IMAGE_NAME:$TOOLCHAIN \
-    $DOCKERFILE_DIR
+- docker build --target $DOCKER_BUILD_TARGET --build-arg TOOLCHAIN=$TOOLCHAIN
+  -t $IMAGE_NAME:$TOOLCHAIN
+  $DOCKERFILE_DIR
 
 after_success:
 - |
