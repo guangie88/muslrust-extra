@@ -1,3 +1,5 @@
+ARG TOOLCHAIN=stable
+
 FROM alpine:3.7 as provider
 
 # add in the missing symbols, which is super hackish and less flexible
@@ -10,6 +12,5 @@ RUN apk add --no-cache binutils mariadb-dev \
     && ar rcs /root/libmysqlclient.a *.o \
     && rm -rf *.o
 
-ARG TOOLCHAIN=stable
-FROM clux/muslrust:$TOOLCHAIN as builder
+FROM clux/muslrust:${TOOLCHAIN} as builder
 COPY --from=provider /root/libmysqlclient.a /musl/lib/
