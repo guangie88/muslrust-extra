@@ -16,7 +16,7 @@ matrix:
 before_script:
 - set -e
 # always test login
-- docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+- docker login -u='$DOCKER_USERNAME' -p='$DOCKER_PASSWORD'
 
 script:
 - docker build --target $DOCKER_BUILD_TARGET --build-arg TOOLCHAIN=$TOOLCHAIN \
