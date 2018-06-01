@@ -5,7 +5,7 @@
 [`clux/muslrust`](https://hub.docker.com/r/clux/muslrust/) with extra libraries
 installed. All the libraries included are statically linked.
 
-Docker Hub link: <https://hub.docker.com/r/clux/muslrust/>
+Docker Hub link: <https://hub.docker.com/r/guangie88/muslrust-extra/>
 
 ## Extra libraries
 
