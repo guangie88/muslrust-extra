@@ -10,5 +10,6 @@ RUN apk add --no-cache binutils mariadb-dev \
     && ar rcs /root/libmysqlclient.a *.o \
     && rm -rf *.o
 
-FROM clux/muslrust:stable as builder
+ARG TOOLCHAIN=stable
+FROM clux/muslrust:$TOOLCHAIN as builder
 COPY --from=provider /root/libmysqlclient.a /musl/lib/
